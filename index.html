@@ -29,7 +29,7 @@
     <input type="text" id="image" name="image" value="https://www.tutorialspoint.com/html5/images/html5-mini-logo.jpg"><br><br>
 </form>
 
-<button onclick="add_google_logo(document.getElementById('image').value)">Add Google Logo</button>
+<button onclick="output_image(document.getElementById('image').value)">Output image</button>
 
     <img src="https://www.tutorialspoint.com/html5/images/html5-mini-logo.jpg" width="300" height="225" alt="Photo of White Beach in Boracay, Philippines" />
     <img src="img/pic_trulli.jpg" alt="Flowers in Chania" width="460" height="345">
@@ -41,7 +41,7 @@
 
 
 <script>
-    function add_google_logo(val) {
+    function output_image(val) {
         var src = val;
         show_image(src, 276,110, "Google Logo");
     }
