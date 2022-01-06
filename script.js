@@ -1,8 +1,9 @@
-let d = new Date();
-        alert("Today's date is " + d);
+//const funcClosematches = require("./editdistance")
 
     window.addEventListener('load', function() {
         document.querySelector('input[type="file"]').addEventListener('change', function() {
+    // fix this line above
+
             if (this.files && this.files[0]) {
                 var img = document.querySelector('img');
                 img.onload = () => {
@@ -13,20 +14,73 @@ let d = new Date();
                 }
             });
     });
-/*
 
-function UpdateInfo()
-{
-  var teacher = document.getElementById('teacher').val();
-  var grade = document.getElementById('grade').val();
-  var info = teacher + '\'s '+ grade + ' class';
-  document.getElementById('info').value = info;
+    var promiseDict = (fetch("housing_dictionary/index.json")
+    .then(response => response.json())
+    .then(json => 
+      {
+        //document.getElementById('main').innerHTML = JSON.stringify(json);
+  
+        var dictionaryInside = new Set(json);
+  
+        console.log(json);
+        console.log(dictionaryInside);
+        return dictionaryInside;
+      }));
+  
+  const doesItExist = (word) =>{
+      promiseDict.then(dictionary => {
+  
+        var WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
+        
+        console.log(WordWithExistance);
+
+        /*if(!(dictionary.has(word)))
+            funcClosematches(word);
+        */
+
+      })
+  };
+
+
+
+function output_image(val) {
+    var src = val;
+    show_image(src, 276,110, "Google Logo");
+}
+function tesseract(val) {
+    //'img/a01-000u-1.1.png'
+    Tesseract.recognize(
+        val,
+            'eng',
+            { logger: m => console.log(m) }
+        ).then(({ data}) => {
+        console.log(data.words);
+        for (let i = 0; i < data.words.length; i++) {
+            doesItExist(clean_up_word(data.words[i].text));
+
+            //this calls exist function and lowercases the word to fit the dictionary
+            }
+    })
 }
 
- Solution 1 (onChange) 
-<input id="teacher" type="text" onChange="UpdateInfo();" />
-<input id="grade" type="text" onChange="UpdateInfo();" />
-<input id="info" type="text" />
+function show_image(src, width, height, alt) {
+    var img = document.createElement("img");
+    img.src = src;
+    img.width = width;
+    img.height = height;
+    img.alt = alt;
+    document.body.appendChild(img);
+}
 
+function clean_up_word(word){
+    var updatedWord = word.toLowerCase();
 
-*/
+    var punctuationless = updatedWord.replace(/[.,\/#!$%\^&\*;:{}=_`~()]/g,"");  //removed /- from list to only focus on end punctutation - .,;! etc.
+    var finalString = punctuationless.replace(/\s{2,}/g," ");
+    //took these two lines of code from website - https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
+
+    return finalString;
+
+}
+
