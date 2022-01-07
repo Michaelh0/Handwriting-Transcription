@@ -13,11 +13,11 @@
 <body>
 <script>
     Tesseract.recognize(
-  'img/a01-000u-1.1.png',
+  'img/Sivakumar_after copy.jpg',
   'eng',
   { logger: m => console.log(m) }
-).then(({ data: { text } }) => {
-  console.log(text);
+).then(({ data}) => {
+  console.log(data);
 })
 </script>
 </body>
