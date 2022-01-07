@@ -76,8 +76,20 @@ function show_image(src, width, height, alt) {
 function clean_up_word(word){
     var updatedWord = word.toLowerCase();
 
-    var punctuationless = updatedWord.replace(/[.,\/#!$%\^&\*;:{}=_`~()]/g,"");  //removed /- from list to only focus on end punctutation - .,;! etc.
-    var finalString = punctuationless.replace(/\s{2,}/g," ");
+    var finalString, firstWord, secondWord;
+    var posOfDash = 0;
+    
+    if (/[\-]/.test(updatedWord)){
+        posOfDash = updatedWord.indexOf("-");
+        firstWord = updatedWord.slice(0,posOfDash);
+        secondWord = updatedWord.slice(posOfDash+1);
+        console.log(updatedWord + " is made up of two other words.");
+        doesItExist(firstWord);
+        doesItExist(secondWord);
+    }
+
+    var punctuationless = updatedWord.replace(/[.,\/#!$%\^&\*;:{}=_`~()]/g,"");  //removed /- from list to only focus on end punctutation - .,;!' etc.
+    finalString = punctuationless.replace(/\s{2,}/g," ");
     //took these two lines of code from website - https://stackoverflow.com/questions/4328500/how-can-i-strip-all-punctuation-from-a-string-in-javascript-using-regex
 
     return finalString;
