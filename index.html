@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/all.min.css">
+   <!-- <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css"> -->
     <title>Polygence Handwriting Transcription</title>
-
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
 </head>
 
 <body>
@@ -31,31 +32,22 @@
 
 <button onclick="output_image(document.getElementById('image').value)">Output image</button>
 
-    <img src="https://www.tutorialspoint.com/html5/images/html5-mini-logo.jpg" width="300" height="225" alt="Photo of White Beach in Boracay, Philippines" />
-    <img src="img/pic_trulli.jpg" alt="Flowers in Chania" width="460" height="345">
-    <div>Description: The problem is converting images of handwritten text to computer text. Existing handwriting transcription solutions are expensive and do not offer a method of uploading your own images to be translated. The aspects which will make my solution unique is to make it accessible to the general public and to upload images of handwriting to the website. I will be measuring accuracy and plausibility. Plausibility can be measured through finding the number of existing words or finding how many edits it takes to transformed the projecting outcome into an existing word. The final deliverable will be a website and a Github repository. The website will allow for the user to upload images of handwritten text to be converted into computerized text and will output the text in consideration with new lines.
-    </div>
+<form method="post">
+    <label for="tessaract">Link for tessaract:</label>
+    <input type="text" id="tesseract" name="tesseract" value="https://tesseract.projectnaptha.com/img/eng_bw.png"><br><br>
+</form>
+<button onclick="tesseract(document.getElementById('tesseract').value)">Tesseract</button>
+
+<img src="https://www.tutorialspoint.com/html5/images/html5-mini-logo.jpg" width="300" height="225" alt="Photo of White Beach in Boracay, Philippines" />
+<img src="img/pic_trulli.jpg" alt="Flowers in Chania" width="460" height="345">
+<div>Description: The problem is converting images of handwritten text to computer text. Existing handwriting transcription solutions are expensive and do not offer a method of uploading your own images to be translated. The aspects which will make my solution unique is to make it accessible to the general public and to upload images of handwriting to the website. I will be measuring accuracy and plausibility. Plausibility can be measured through finding the number of existing words or finding how many edits it takes to transformed the projecting outcome into an existing word. The final deliverable will be a website and a Github repository. The website will allow for the user to upload images of handwritten text to be converted into computerized text and will output the text in consideration with new lines.
+</div>
 
 <div>https://stackoverflow.com/questions/12322822/will-window-addeventlistenerload-function-false-wait-for-fields-to-be-a</div>
 <script src="js/script.js"></script>
 
 
-<script>
-    function output_image(val) {
-        var src = val;
-        show_image(src, 276,110, "Google Logo");
-    }
 
-
-    function show_image(src, width, height, alt) {
-        var img = document.createElement("img");
-        img.src = src;
-        img.width = width;
-        img.height = height;
-        img.alt = alt;
-        document.body.appendChild(img);
-    }
-</script>
 </body>
 
 
