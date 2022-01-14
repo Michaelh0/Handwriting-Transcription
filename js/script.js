@@ -29,7 +29,7 @@
       }));
   
   const doesItExist = (word) =>{
-      var WordWithExistance
+      var WordWithExistance;
       promiseDict.then(dictionary => {
   
         WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
