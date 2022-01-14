@@ -38,7 +38,7 @@
         /*if(!(dictionary.has(word)))
             funcClosematches(word);
         */
-
+        // want to return the string wordWithExistance
       })
   };
 
@@ -57,12 +57,28 @@ function tesseract(val) {
         ).then(({ data}) => {
         console.log(data.words);
         for (let i = 0; i < data.words.length; i++) {
-            doesItExist(clean_up_word(data.words[i].text));
+            var outputText = doesItExist(clean_up_word(data.words[i].text));
+            var tag = document.createElement("p");
+            var text = document.createTextNode(outputText);
+            tag.appendChild(text);
+            var element = document.getElementById("outputTesseract");
+            element.appendChild(tag);
 
+            //https://www.tutorialspoint.com/how-to-add-a-new-element-to-html-dom-in-javascript
+            // need to create an array to hold all of the strings of existence and output it here
+            
             //this calls exist function and lowercases the word to fit the dictionary
-            }
-    })
+        }
+    })  
 }
+
+/*function output_array(array,size)
+{
+    for (let i = 0; i < size; i++) {
+        array[i];
+
+}
+*/
 
 function show_image(src, width, height, alt) {
     var img = document.createElement("img");
