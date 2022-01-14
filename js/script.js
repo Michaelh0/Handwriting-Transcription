@@ -29,9 +29,10 @@
       }));
   
   const doesItExist = (word) =>{
+      var WordWithExistance
       promiseDict.then(dictionary => {
   
-        var WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
+        WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
         
         //document.getElementById("outputTesseract").innerHTML = WordWithExistance;
         //
