@@ -34,12 +34,13 @@
         var WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
         
         //document.getElementById("outputTesseract").innerHTML = WordWithExistance;
-        return WordWithExistance;
+        //
         /*if(!(dictionary.has(word)))
             funcClosematches(word);
         */
         // want to return the string wordWithExistance
       })
+      return WordWithExistance;
   };
 
 
