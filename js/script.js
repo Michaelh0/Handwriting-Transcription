@@ -118,12 +118,12 @@ function clean_up_word(word){
 // took all this from website https://www.w3schools.com/howto/howto_js_progressbar.asp to create progress bar
 
 var i = 0;
-function move() {
+function move(val) {
   if (i == 0) {
     i = 1;
     var elem = document.getElementById("myBar");
     var width = 1;
-    var id = setInterval(frame, 100);
+    var id = setInterval(frame, val);
     function frame() {
       if (width >= 100) {
         clearInterval(id);
