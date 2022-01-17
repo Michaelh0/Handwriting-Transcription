@@ -115,6 +115,8 @@ function clean_up_word(word){
 
 }
 
+// took all this from website https://www.w3schools.com/howto/howto_js_progressbar.asp to create progress bar
+
 var i = 0;
 function move() {
   if (i == 0) {
