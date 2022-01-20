@@ -55,7 +55,10 @@ function tesseract(val) {
     Tesseract.recognize(
         val,
             'eng',
-            { logger: m => console.log(m) }
+            { logger: m => {
+              if (m.status == "recognizing text")
+                console.log(m)
+            } }
             // here is where i should access the logger information
         ).then(({ data}) => {
         console.log(data.words);
