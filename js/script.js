@@ -67,7 +67,9 @@ function tesseract(val) {
         ).then(({ data}) => {
         console.log(data.words);
         for (let i = 0; i < data.words.length; i++) {
-            var outputText = doesItExist(clean_up_word(data.words[i].text));
+            var outputText = i.toString();
+            //doesItExist(clean_up_word(data.words[i].text));
+            // can't figure out how to get values out of the promise
             var tag = document.createElement("p");
             var text = document.createTextNode(outputText);
             tag.appendChild(text);
