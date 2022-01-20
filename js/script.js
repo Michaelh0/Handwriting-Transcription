@@ -56,6 +56,7 @@ function tesseract(val) {
         val,
             'eng',
             { logger: m => console.log(m) }
+            // here is where i should access the logger information
         ).then(({ data}) => {
         console.log(data.words);
         for (let i = 0; i < data.words.length; i++) {
@@ -134,4 +135,9 @@ function move(val) {
       }
     }
   }
+}
+
+function jump(val){
+  var elem = document.getElementById("myBar");
+  elem.style.width = val + "%";
 }
