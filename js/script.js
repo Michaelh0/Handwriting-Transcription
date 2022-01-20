@@ -62,7 +62,8 @@ function tesseract(val) {
               }
                 
 
-            } }
+            }
+           }
             // here is where i should access the logger information
         ).then(({ data}) => {
         console.log(data.words);
