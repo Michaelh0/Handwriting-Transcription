@@ -58,9 +58,9 @@ function tesseract(val) {
             { logger: m => {
               if (m.status == "recognizing text"){
                 console.log(m);
-                console.log(m.progress * 100);
-                //jump();
+                jump(m.progress * 100);
               }
+
             }
            }
             // here is where i should access the logger information
