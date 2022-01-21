@@ -66,6 +66,8 @@ function tesseract(val) {
             // here is where i should access the logger information
         ).then(({ data}) => {
         console.log(data.words);
+        var element = document.getElementById("outputTesseract");
+        element.innerHTML = "";
         for (let i = 0; i < data.words.length; i++) {
             var outputText = i.toString();
             //doesItExist(clean_up_word(data.words[i].text));
@@ -73,7 +75,6 @@ function tesseract(val) {
             var tag = document.createElement("p");
             var text = document.createTextNode(outputText);
             tag.appendChild(text);
-            var element = document.getElementById("outputTesseract");
             element.appendChild(tag);
 
             //https://www.tutorialspoint.com/how-to-add-a-new-element-to-html-dom-in-javascript
