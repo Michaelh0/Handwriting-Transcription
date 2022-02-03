@@ -1,5 +1,7 @@
 //const funcClosematches = require("./editdistance")
 
+//const levenshtein = require("../editDistance folder/levenshtein");
+
 window.addEventListener('load', function () {
   document.querySelector('input[type="file"]').addEventListener('change', function () {
     // fix this line above
@@ -49,11 +51,19 @@ const  doesItExist = async (word) => {
 
 };
 
-/*const alternativeWords = (word) => {
-  findCloseMatches(word);
-  
+const alternativeWords = async (word) => {
+  var dictionary = await promiseDict;
+  for (var i = 0; i < (dictionary.length); i += 1) {
+
+    var stringA = word;
+    var stringB = dictionary[i];
+    var insert = remove = function(char) { return 1; };
+    var update = function(charA, charB) { return charA !== charB ? 1 : 0; };
+    if (levenshtein(stringA, stringB, insert, remove, update).distance <= MAX)
+      console.log(stringB);
+  }
 }
-*/
+
 
 function output_image(val) {
   var src = val;
@@ -83,13 +93,27 @@ function tesseract(val) {
     for (let i = 0; i < data.words.length; i++) {
       //var outputText = i.toString();
       var existanceResult = await doesItExist(clean_up_word(data.words[i].text));
-
-      //alternativeWords(data.words[i]);
-      // can't figure out how to get values out of the promise
-      var tag = document.createElement("span");
-      var text = document.createTextNode(data.words[i].text + " ");
-      //element.classList.add("class name");  
-      tag.appendChild(text);
+      var tag;
+      if(!existanceResult){
+        //alternativeWords(data.words[i]);
+        tag = document.createElement("select");
+        var text;
+        for (let j = 0; j < 4; j++) // number of options is currently hard coded
+        {
+          var option = document.createElement("option");
+          if(!j)
+            text = document.createTextNode(data.words[i].text);
+          else 
+            text = document.createTextNode("alternative word" + (j+1));
+          option.appendChild(text);
+          tag.appendChild(option);
+        }
+      }
+      else{
+        tag = document.createElement("span");
+      } 
+        var text = document.createTextNode(data.words[i].text + " ");
+        tag.appendChild(text);
       if(!existanceResult)
         tag.classList.add("false");
       element.appendChild(tag);
