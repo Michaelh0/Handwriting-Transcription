@@ -28,11 +28,11 @@ var promiseDict = (fetch("housing_dictionary/index.json")
   }));
 
 const  doesItExist = async (word) => {
-  var WordWithExistance;
+  //var WordWithExistance;
   var dictionary = await promiseDict;
   
-  WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
-
+  
+  
   //document.getElementById("outputTesseract").innerHTML = WordWithExistance;
   //
   /*if(!(dictionary.has(word)))
@@ -40,10 +40,20 @@ const  doesItExist = async (word) => {
   */
   // want to return the string wordWithExistance
 
-  return WordWithExistance;
+  //replace returning a string into returning bool true or false
+
+  //WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
+  //return WordWithExistance;
+
+  return dictionary.has(word);
+
 };
 
-
+/*const alternativeWords = (word) => {
+  findCloseMatches(word);
+  
+}
+*/
 
 function output_image(val) {
   var src = val;
@@ -73,10 +83,15 @@ function tesseract(val) {
     for (let i = 0; i < data.words.length; i++) {
       //var outputText = i.toString();
       var existanceResult = await doesItExist(clean_up_word(data.words[i].text));
+
+      //alternativeWords(data.words[i]);
       // can't figure out how to get values out of the promise
-      var tag = document.createElement("p");
-      var text = document.createTextNode(existanceResult);
+      var tag = document.createElement("span");
+      var text = document.createTextNode(data.words[i].text + " ");
+      //element.classList.add("class name");  
       tag.appendChild(text);
+      if(!existanceResult)
+        tag.classList.add("false");
       element.appendChild(tag);
 
       //https://www.tutorialspoint.com/how-to-add-a-new-element-to-html-dom-in-javascript
