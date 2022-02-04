@@ -1,6 +1,6 @@
 //const funcClosematches = require("./editdistance")
+require(["./editDistance folder/levenshtein"], function(levenshtein){
 
-//const levenshtein = require("../editDistance folder/levenshtein");
 
 window.addEventListener('load', function () {
   document.querySelector('input[type="file"]').addEventListener('change', function () {
@@ -194,3 +194,13 @@ function jump(val) {
   var elem = document.getElementById("myBar");
   elem.style.width = val + "%";
 }
+
+document.getElementById("tesseractBut").addEventListener("click",function(){
+  tesseract(document.getElementById('tesseract').value);
+});
+
+document.getElementById("imageBut").addEventListener("click",function(){
+  output_image(document.getElementById('image').value);
+});
+
+});

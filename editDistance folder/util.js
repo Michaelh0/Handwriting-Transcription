@@ -5,7 +5,7 @@
 // compute the aligment.
 
 var Mapping;
-
+define(function (require, exports, module) {
 module.exports.Mapping = Mapping = class Mapping {
   constructor(a1, b1, distance, track, backtrackFn) {
     
@@ -84,3 +84,4 @@ module.exports.trackedMin = function(a, b, c) {
   }
   return min;
 };
+})

@@ -1,6 +1,12 @@
 var Mapping, levenshtein, levenshteinBt, trackedMin, zero;
 
+
+define(function (require, exports, module) {
+
 ({Mapping, zero, trackedMin} = require('./util'));
+
+//require(['editDistance folder/util'],function ({Mapping, zero, trackedMin}){
+
 
 
 // Computes the Levenshtein distance.
@@ -89,3 +95,5 @@ levenshteinBt = function(a, b, track) {
 };
 
 module.exports = levenshtein;
+
+})
