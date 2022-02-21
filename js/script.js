@@ -53,15 +53,25 @@ const  doesItExist = async (word) => {
 
 const alternativeWords = async (word) => {
   var dictionary = await promiseDict;
-  for (var i = 0; i < (dictionary.length); i += 1) {
-
-    var stringA = word;
-    var stringB = dictionary[i];
+  var MAX = 1;
+  //console.log(dictionary);
+  //console.log(dictionary.size);
+  var stringA = word;
+  //console.log(stringA); // don't need to really declare other variable 
+  const altwords = [];
+  let i = 0;
+  dictionary.forEach (function(stringB) {
+    //var stringB = value;
     var insert = remove = function(char) { return 1; };
     var update = function(charA, charB) { return charA !== charB ? 1 : 0; };
-    if (levenshtein(stringA, stringB, insert, remove, update).distance <= MAX)
-      console.log(stringB);
-  }
+    if (levenshtein(stringA, stringB, insert, remove, update).distance <= MAX){
+      //console.log(stringB);
+      altwords[i] = stringB;
+      i++;
+    }
+  })
+  console.log(altwords);
+  return altwords;
 }
 
 
@@ -95,16 +105,26 @@ function tesseract(val) {
       var existanceResult = await doesItExist(clean_up_word(data.words[i].text));
       var tag;
       if(!existanceResult){
-        //alternativeWords(data.words[i]);
+        const altSet = new Set(alternativeWords(clean_up_word(data.words[i].text)));
         tag = document.createElement("select");
         var text;
         for (let j = 0; j < 4; j++) // number of options is currently hard coded
         {
           var option = document.createElement("option");
+          //let length = altwordArray.length;
           if(!j)
             text = document.createTextNode(data.words[i].text);
-          else 
-            text = document.createTextNode("alternative word" + (j+1));
+          else{
+            if(altwordArray.length >= j){
+              text = document.createTextNode(altwordArray[i]);
+            }
+            else
+              text = document.createTextNode("alternative word don't exist");
+
+            console.log(altwordArray[i]);
+            console.log(j);
+          }
+            
           option.appendChild(text);
           tag.appendChild(option);
         }
@@ -156,7 +176,9 @@ function clean_up_word(word) {
     secondWord = updatedWord.slice(posOfDash + 1);
     console.log(updatedWord + " is made up of two other words.");
     doesItExist(firstWord);
+    alternativeWords(firstWord);
     doesItExist(secondWord);
+    alternativeWords(secondWord);
   }
 
   var punctuationless = updatedWord.replace(/[.,\/#!$%\^&\*;:{}=_`~()]/g, ""); //removed /- from list to only focus on end punctutation - .,;!' etc.
