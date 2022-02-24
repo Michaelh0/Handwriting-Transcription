@@ -1,6 +1,19 @@
 //const funcClosematches = require("./editdistance")
 require(["./editDistance folder/levenshtein"], function(levenshtein){
 
+  window.addEventListener('load', function() {
+    document.querySelector('input[type="file"]').addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            var img = document.querySelector('img');
+            img.onload = () => {
+                URL.revokeObjectURL(img.src);  // no longer needed, free memory
+            }
+  
+            img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+        }
+    });
+  });
+
 
 window.addEventListener('load', function () {
   document.querySelector('input[type="file"]').addEventListener('change', function () {
@@ -71,6 +84,12 @@ const alternativeWords = async (word) => {
     }
   })
   console.log(altwords);
+  /*if (altwords.length == 0){
+    console.log("0 it is.");
+    console.log([""]);
+    return [""];
+  }*/
+    
   return altwords;
 }
 
@@ -102,31 +121,39 @@ function tesseract(val) {
     element.innerHTML = "";
     for (let i = 0; i < data.words.length; i++) {
       //var outputText = i.toString();
-      var existanceResult = await doesItExist(clean_up_word(data.words[i].text));
+      var cleanedWord = clean_up_word(data.words[i].text)
+      var existanceResult = await doesItExist(cleanedWord);
+      
       var tag;
       if(!existanceResult){
-        const altSet = new Set(alternativeWords(clean_up_word(data.words[i].text)));
+        const altArray = await (alternativeWords(cleanedWord));
+        console.log(altArray);
         tag = document.createElement("select");
         var text;
-        for (let j = 0; j < 4; j++) // number of options is currently hard coded
-        {
-          var option = document.createElement("option");
-          //let length = altwordArray.length;
-          if(!j)
-            text = document.createTextNode(data.words[i].text);
-          else{
-            if(altwordArray.length >= j){
-              text = document.createTextNode(altwordArray[i]);
-            }
-            else
-              text = document.createTextNode("alternative word don't exist");
+        if(altArray.length != 0){ 
 
-            console.log(altwordArray[i]);
-            console.log(j);
+          for (let j = 0; j < 4; j++) // number of options is currently hard coded
+          {
+            var option = document.createElement("option");
+            //let length = altwordArray.length;
+            if(!j)
+              text = document.createTextNode(data.words[i].text);
+            else{
+              if(altArray.length >= j){
+                text = document.createTextNode(altArray[j-1]);
+                console.log(altArray[j-1]);
+                console.log(j-1);
+              }
+              else
+                text = document.createTextNode("alternative word don't exist");
+            }
+              
+            option.appendChild(text);
+            tag.appendChild(option);
           }
-            
-          option.appendChild(text);
-          tag.appendChild(option);
+        }
+        else{
+          tag = document.createElement("span");
         }
       }
       else{
@@ -191,6 +218,38 @@ function clean_up_word(word) {
 
 // took all this from website https://www.w3schools.com/howto/howto_js_progressbar.asp to create progress bar
 
+
+function Upload() {
+  var fileUpload = document.getElementById("fileUpload");
+  var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+  if (regex.test(fileUpload.value.toLowerCase())) {
+      if (typeof (FileReader) != "undefined") {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+              var table = document.createElement("table");
+              var rows = e.target.result.split("\n");
+              for (var i = 0; i < rows.length; i++) {
+                  var row = table.insertRow(-1);
+                  var cells = rows[i].split(",");
+                  for (var j = 0; j < cells.length; j++) {
+                      var cell = row.insertCell(-1);
+                      cell.innerHTML = cells[j];
+                  }
+              }
+              var dvCSV = document.getElementById("dvCSV");
+              dvCSV.innerHTML = "";
+              dvCSV.appendChild(table);
+          }
+          reader.readAsText(fileUpload.files[0]);
+      } else {
+          alert("This browser does not support HTML5.");
+      }
+  } else {
+      alert("Please upload a valid CSV file.");
+  }
+}
+
+
 var i = 0;
 
 function move(val) {
@@ -223,6 +282,18 @@ document.getElementById("tesseractBut").addEventListener("click",function(){
 
 document.getElementById("imageBut").addEventListener("click",function(){
   output_image(document.getElementById('image').value);
+});
+
+document.getElementById("move").addEventListener("click",function(){
+  move(50);
+});
+
+document.getElementById("jump").addEventListener("click",function(){
+  jump(50);
+});
+
+document.getElementById("upload").addEventListener("click",function(){
+  Upload();
 });
 
 });
