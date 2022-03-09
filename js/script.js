@@ -1,7 +1,8 @@
+
 //const funcClosematches = require("./editdistance")
-require(["./editDistance folder/levenshtein"], function(levenshtein){
+require(["./editDistance folder/levenshtein","//d3js.org/d3.v3.min.js"], function(levenshtein){
 
-
+  frequency("the");
 
   window.addEventListener('load', function() {
     document.querySelector('input[type="file"]').addEventListener('change', function() {
@@ -307,4 +308,21 @@ document.getElementById("jump").addEventListener("click",function(){
   Upload();
 });
 */
+
+
+function frequency(word){
+  d3.csv("./unigram_freq/unigram_freq.csv", function(data) {
+    var output = "doesn't exist";
+    data.forEach(function(d) {
+      /* Each row has the variable name 'd': 'columns' can be accessed as object properties */
+      if (d['word'] == word){
+        return d['count'];
+      }
+        
+    });
+
+    return(output);
+  });
+}
+
 });
