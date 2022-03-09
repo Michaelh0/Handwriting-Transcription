@@ -1,6 +1,8 @@
 //const funcClosematches = require("./editdistance")
 require(["./editDistance folder/levenshtein"], function(levenshtein){
 
+
+
   window.addEventListener('load', function() {
     document.querySelector('input[type="file"]').addEventListener('change', function() {
         if (this.files && this.files[0]) {
@@ -10,26 +12,11 @@ require(["./editDistance folder/levenshtein"], function(levenshtein){
             }
   
             img.src = URL.createObjectURL(this.files[0]); // set src to blob url
+            //console.log(this.files[0]);
+           tesseract(this.files[0]);
         }
     });
   });
-
-
-window.addEventListener('load', function () {
-  document.querySelector('input[type="file"]').addEventListener('change', function () {
-    // fix this line above
-
-    if (this.files && this.files[0]) {
-      var img = document.querySelector('img');
-      img.onload = () => {
-        URL.revokeObjectURL(img.src); // no longer needed, free memory
-      }
-
-      img.src = URL.createObjectURL(this.files[0]); // set src to blob url
-    }
-  });
-});
-
 var promiseDict = (fetch("housing_dictionary/index.json")
   .then(response => response.json())
   .then(json => {
@@ -217,15 +204,45 @@ function clean_up_word(word) {
 }
 
 // took all this from website https://www.w3schools.com/howto/howto_js_progressbar.asp to create progress bar
+/*
 
+function frequency(file,word) {
+  var database = d3.csv("..unigram_freq/mydata.csv");
+  
+  return frequency;
+}
+*/
+/*var table = document.createElement("table");  
 
-function Upload() {
-  var fileUpload = document.getElementById("fileUpload");
-  var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
-  if (regex.test(fileUpload.value.toLowerCase())) {
-      if (typeof (FileReader) != "undefined") {
-          var reader = new FileReader();
-          reader.onload = function (e) {
+const frequency = new Map();
+var word = "";
+var frequencyNum = 0;
+
+var rows = e.target.result.split("\n");
+
+for (var i = 0; i < rows.length; i++) {
+  var row = table.insertRow(-1);
+  var cells = rows[i].split(",");
+  for (var j = 0; j < cells.length; j++) {
+      var cell = row.insertCell(-1);
+      if(i){
+        if(j)
+          frequencyNum = parseInt(cells[j]);
+        else
+          word = cells[j];
+      }
+      cell.innerHTML = cells[j];
+  }
+  frequency.set(word,frequencyNum);
+  var dvCSV = document.getElementById("dvCSV");
+  dvCSV.innerHTML = "";
+  dvCSV.appendChild(table);
+
+*/
+
+/*
+var reader = new FileReader();
+          reader.onload = function (e) {      
               var table = document.createElement("table");
               var rows = e.target.result.split("\n");
               for (var i = 0; i < rows.length; i++) {
@@ -239,17 +256,11 @@ function Upload() {
               var dvCSV = document.getElementById("dvCSV");
               dvCSV.innerHTML = "";
               dvCSV.appendChild(table);
+              
           }
           reader.readAsText(fileUpload.files[0]);
-      } else {
-          alert("This browser does not support HTML5.");
-      }
-  } else {
-      alert("Please upload a valid CSV file.");
-  }
-}
 
-
+*/
 var i = 0;
 
 function move(val) {
@@ -292,8 +303,8 @@ document.getElementById("jump").addEventListener("click",function(){
   jump(50);
 });
 
-document.getElementById("upload").addEventListener("click",function(){
+/*document.getElementById("upload").addEventListener("click",function(){
   Upload();
 });
-
+*/
 });
