@@ -2,8 +2,6 @@
 //const funcClosematches = require("./editdistance")
 require(["./editDistance folder/levenshtein","//d3js.org/d3.v3.min.js"], function(levenshtein){
 
-  frequency("the");
-
   window.addEventListener('load', function() {
     document.querySelector('input[type="file"]').addEventListener('change', function() {
         if (this.files && this.files[0]) {
@@ -29,25 +27,19 @@ var promiseDict = (fetch("housing_dictionary/index.json")
     console.log(dictionaryInside);
     return dictionaryInside;
   }));
-
+  const map = new Map();
+  d3.csv("unigram_freq/unigram_freq.csv", function(data) {
+    var dataset = data;
+    console.log(dataset)
+    data.forEach(function(d) {
+      /* Each row has the variable name 'd': 'columns' can be accessed as object properties */
+      map.set(d['word'], d['count']); 
+    });
+  });
+  console.log(map);
 const  doesItExist = async (word) => {
   //var WordWithExistance;
   var dictionary = await promiseDict;
-  
-  
-  
-  //document.getElementById("outputTesseract").innerHTML = WordWithExistance;
-  //
-  /*if(!(dictionary.has(word)))
-      funcClosematches(word);
-  */
-  // want to return the string wordWithExistance
-
-  //replace returning a string into returning bool true or false
-
-  //WordWithExistance = word + " exists: " + (dictionary.has(word)).toString();
-  //return WordWithExistance;
-
   return dictionary.has(word);
 
 };
@@ -55,10 +47,7 @@ const  doesItExist = async (word) => {
 const alternativeWords = async (word) => {
   var dictionary = await promiseDict;
   var MAX = 1;
-  //console.log(dictionary);
-  //console.log(dictionary.size);
   var stringA = word;
-  //console.log(stringA); // don't need to really declare other variable 
   const altwords = [];
   let i = 0;
   dictionary.forEach (function(stringB) {
@@ -71,13 +60,6 @@ const alternativeWords = async (word) => {
       i++;
     }
   })
-  console.log(altwords);
-  /*if (altwords.length == 0){
-    console.log("0 it is.");
-    console.log([""]);
-    return [""];
-  }*/
-    
   return altwords;
 }
 
@@ -104,7 +86,7 @@ function tesseract(val) {
   ).then(async({
     data
   }) => {
-    console.log(data.words);
+    //console.log(data.words);
     var element = document.getElementById("outputTesseract");
     element.innerHTML = "";
     for (let i = 0; i < data.words.length; i++) {
@@ -114,8 +96,8 @@ function tesseract(val) {
       
       var tag;
       if(!existanceResult){
-        const altArray = await (alternativeWords(cleanedWord));
-        console.log(altArray);
+        const newArray = await (alternativeWords(cleanedWord));
+        const altArray = sortByLikeliness(newArray);
         tag = document.createElement("select");
         var text;
         if(altArray.length != 0){ 
@@ -159,6 +141,51 @@ function tesseract(val) {
       //this calls exist function and lowercases the word to fit the dictionary
     }
   })
+}
+
+const existanceLikeliness = (edit_distance,word) => {
+  var wordFrequency = frequency(word);
+  var theFrequency = frequency("the");
+  var cost = 1/edit_distance + 25*wordFrequency/theFrequency;
+  console.log(cost);
+  return cost;
+}
+
+
+//need to add the flexiblity to add edit distance increase if less than three. !!!!!!!!!!!!!!!!!!!!
+
+function sortByLikeliness(array){
+  var size = array.length;
+  const newArray = [0,0,0];
+  const newArrayWords = ["","",""];
+  for(let p = 0; p < size; p++)
+  {
+    var likeliness = existanceLikeliness(1,array[p])
+    if(likeliness > newArray[2]){
+
+      if (likeliness > newArray[1]){
+        newArray[2] = newArray[1];
+        newArrayWords[2] = newArrayWords[1];
+        if (likeliness > newArray[0]){
+          newArray[1] = newArray[0];
+          newArrayWords[1] = newArrayWords[0];
+          newArray[0] = likeliness;
+          newArrayWords[0] = array[p];
+        }
+        else{
+          newArray[1] = likeliness;
+          newArrayWords[1] = array[p];
+        }
+      }
+      else {
+        newArray[2] = likeliness;
+        newArrayWords[2] = array[p];
+      }
+        
+    }
+  }
+  console.log(newArrayWords);
+  return newArrayWords;
 }
 
 /*function output_array(array,size)
@@ -304,25 +331,14 @@ document.getElementById("jump").addEventListener("click",function(){
   jump(50);
 });
 
-/*document.getElementById("upload").addEventListener("click",function(){
-  Upload();
-});
-*/
 
 
-function frequency(word){
-  d3.csv("./unigram_freq/unigram_freq.csv", function(data) {
-    var output = "doesn't exist";
-    data.forEach(function(d) {
-      /* Each row has the variable name 'd': 'columns' can be accessed as object properties */
-      if (d['word'] == word){
-        return d['count'];
-      }
-        
-    });
-
-    return(output);
-  });
+function frequency(word)
+{
+  console.log("frequency function called" + word);
+  if (map.size != 0) 
+    return map.get(word);
+  
 }
 
 });
