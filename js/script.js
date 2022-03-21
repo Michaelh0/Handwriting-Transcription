@@ -49,7 +49,8 @@ const alternativeWords = async (word) => {
   var MAX = 1;
   var stringA = word;
   const altwords = [];
-  let i = 0;
+  do{
+  let i = 0;  
   dictionary.forEach (function(stringB) {
     //var stringB = value;
     var insert = remove = function(char) { return 1; };
@@ -59,7 +60,11 @@ const alternativeWords = async (word) => {
       altwords[i] = stringB;
       i++;
     }
+    
   })
+  MAX++;
+  }while(altwords.length < 3 );
+  //|| MAX > 7
   return altwords;
 }
 
@@ -99,6 +104,7 @@ function tesseract(val) {
         const newArray = await (alternativeWords(cleanedWord));
         const altArray = sortByLikeliness(newArray);
         tag = document.createElement("select");
+        //tag.id = i;
         var text;
         if(altArray.length != 0){ 
 
@@ -187,14 +193,6 @@ function sortByLikeliness(array){
   console.log(newArrayWords);
   return newArrayWords;
 }
-
-/*function output_array(array,size)
-{
-    for (let i = 0; i < size; i++) {
-        array[i];
-
-}
-*/
 
 function show_image(src, width, height, alt) {
   var img = document.createElement("img");
@@ -318,7 +316,7 @@ function jump(val) {
 document.getElementById("tesseractBut").addEventListener("click",function(){
   tesseract(document.getElementById('tesseract').value);
 });
-
+/*
 document.getElementById("imageBut").addEventListener("click",function(){
   output_image(document.getElementById('image').value);
 });
@@ -330,8 +328,19 @@ document.getElementById("move").addEventListener("click",function(){
 document.getElementById("jump").addEventListener("click",function(){
   jump(50);
 });
+*/
+document.getElementById("btn").addEventListener("click",function(){
+  set_value();
+});
 
-
+function set_value() { 
+  
+  let items = document.getElementsByClassName('false');
+ 
+  let data = [].map.call(items, item => item.textContent);
+ 
+  console.log(data);
+} 
 
 function frequency(word)
 {

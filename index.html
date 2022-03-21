@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/main.css">
     <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
     <script src='editDistance folder/require.js'></script>
-    <!--<script src="//d3js.org/d3.v3.min.js"></script>-->
+
 </head>
 
 <body>
@@ -26,46 +26,43 @@
 
     <div>Step3: get text spitted right back at you -> currently the program outputs the image out onto the screen and there is no check if the link is even valid. </div>
 
-    <!--<div>still have to have a way to save image</div>-->
-
     <div>Description: The problem is converting images of handwritten text to computer text. Existing handwriting transcription solutions are expensive and do not offer a method of uploading your own images to be translated. The aspects which will make my solution unique is to make it accessible to the general public and to upload images of handwriting to the website. I will be measuring accuracy and plausibility. Plausibility can be measured through finding the number of existing words or finding how many edits it takes to transformed the projecting outcome into an existing word. The final deliverable will be a website and a Github repository. The website will allow for the user to upload images of handwritten text to be converted into computerized text and will output the text in consideration with new lines.
     </div>
 </div>
+<!---
 <form method="post">
     <label for="image">Link for image:</label>
     <input type="text" id="image" name="image" value="https://tesseract.projectnaptha.com/img/eng_bw.png"><br><br>
 </form>
 
 <button id="imageBut" onclick="/*output_image(document.getElementById('image').value)*/">Output image</button>
-
+-->
 <form method="post">
     <label for="tessaract">Link for tessaract:</label>
     <input type="text" id="tesseract" name="tesseract" value="https://tesseract.projectnaptha.com/img/eng_bw.png"><br><br>
 </form>
 <button id="tesseractBut" onclick="/*tesseract(document.getElementById('tesseract').value)*/">Tesseract</button>
 
-<!--<img src="https://www.tutorialspoint.com/html5/images/html5-mini-logo.jpg" width="300" height="225" alt="Photo of White Beach in Boracay, Philippines" />
-<img src="img/pic_trulli.jpg" alt="Flowers in Chania" width="460" height="345">
--->
-
-
-<!--<div>https://stackoverflow.com/questions/12322822/will-window-addeventlistenerload-function-false-wait-for-fields-to-be-a</div>-->
-
 <br>
-<button id="move">Full Progress</button> 
-<button id="jump">Jump to Half</button> 
-
-<input type='file' />
-<br><img id="myImg" src="#">
-
-
+<!--<button id="move">Full Progress</button> 
+<button id="jump">Jump to Half</button> -->
 <div id="myProgress">
     <div id="myBar"></div>
   </div>
-
-  <div id="outputTesseract">
+<input type='file' />
+<br><img id="myImg" src="#">
+<div id="outputTesseract">
     <span id="p1">Here will be the Tesseract Data</span>
 </div>
+<!--
+<select id="framework" multiple>
+    <option value="1">Angular</option>
+    <option value="2">React</option>
+    <option value="3">Vue.js</option>
+    <option value="4">Ember.js</option>
+</select>
+-->
+<button id="btn">Output final text</button>
 
 
 <!--<script src="editDistance folder/util.js"></script>

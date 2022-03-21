@@ -1,11 +1,28 @@
+*{
+  size: 20px;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
 div{
-    /*color:black;*/
-    size: 20px;
+    color:black;
+
+}
+
+body{
+  background-color:bisque;
+  
 
 }
 #myProgress {
     width: 20%;
     background-color: grey;
+  }
+  #outputTesseract{
+    
+    max-width: 50%;
+    box-sizing: border-box;
+    margin-top: 30px;
+    padding: 20px;
+    
   }
   
   #myBar {
@@ -31,7 +48,9 @@ div{
 
 }
 #myImg{
-  height: 50vw;
+  float:left;
+  max-width: 25%;
         border: 1px solid #000;
         margin: 10px 5px 0 0;
 }
+
