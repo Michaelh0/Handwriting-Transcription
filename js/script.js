@@ -93,18 +93,21 @@ function tesseract(val) {
   }) => {
     //console.log(data.words);
     var element = document.getElementById("outputTesseract");
+    var pureElement = document.getElementById("pureOutput");
     element.innerHTML = "";
+    var AltwordCount = 0;
     for (let i = 0; i < data.words.length; i++) {
       //var outputText = i.toString();
       var cleanedWord = clean_up_word(data.words[i].text)
       var existanceResult = await doesItExist(cleanedWord);
       
       var tag;
+      
       if(!existanceResult){
         const newArray = await (alternativeWords(cleanedWord));
         const altArray = sortByLikeliness(newArray);
         tag = document.createElement("select");
-        //tag.id = i;
+        tag.id = "outputTess" + AltwordCount;
         var text;
         if(altArray.length != 0){ 
 
@@ -130,35 +133,46 @@ function tesseract(val) {
         }
         else{
           tag = document.createElement("span");
+          //tag.id = "outputTess" + i;
         }
+        AltwordCount++;
       }
       else{
         tag = document.createElement("span");
+        //tag.id = "outputTess" + i;
       } 
         var text = document.createTextNode(data.words[i].text + " ");
         tag.appendChild(text);
       if(!existanceResult)
         tag.classList.add("false");
       element.appendChild(tag);
+      purEelement.appendChild(tag);
 
       //https://www.tutorialspoint.com/how-to-add-a-new-element-to-html-dom-in-javascript
       // need to create an array to hold all of the strings of existence and output it here
 
       //this calls exist function and lowercases the word to fit the dictionary
     }
+
+    
+
+
+
+
   })
 }
 
 const existanceLikeliness = (edit_distance,word) => {
   var wordFrequency = frequency(word);
+  if(!wordFrequency){
+    wordFrequency = frequency("golgw");
+  }
   var theFrequency = frequency("the");
   var cost = 1/edit_distance + 25*wordFrequency/theFrequency;
   console.log(cost);
   return cost;
 }
 
-
-//need to add the flexiblity to add edit distance increase if less than three. !!!!!!!!!!!!!!!!!!!!
 
 function sortByLikeliness(array){
   var size = array.length;
@@ -314,6 +328,12 @@ function jump(val) {
 }
 
 document.getElementById("tesseractBut").addEventListener("click",function(){
+  var img = document.querySelector('img');
+            img.onload = () => {
+                URL.revokeObjectURL(img.src);  // no longer needed, free memory
+            }
+  
+  img.src = document.getElementById('tesseract').value;
   tesseract(document.getElementById('tesseract').value);
 });
 /*
@@ -344,9 +364,29 @@ function set_value() {
 
 function frequency(word)
 {
-  console.log("frequency function called" + word);
+  //console.log("frequency function called" + word);
   if (map.size != 0) 
     return map.get(word);
+  
+}
+
+function update(idname) {
+  var select = document.getElementById("outputTess" + idname);
+  var option = select.options[select.selectedIndex];
+
+  document.getElementById("pureOutput" + idname).value = option.text;
+}
+
+function displayTesseract(size){
+
+  //for loop
+    for(var i = 0; i < size; i++)
+    {
+      document.getElementById("outputTess" + i).addEventListener("change",function(){
+        update(i);
+      });
+
+    }
   
 }
 
