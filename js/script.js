@@ -95,6 +95,7 @@ function tesseract(val) {
     var element = document.getElementById("outputTesseract");
     var pureElement = document.getElementById("pureOutput");
     element.innerHTML = "";
+    pureElement.innerHTML = "";
     var AltwordCount = 0;
     for (let i = 0; i < data.words.length; i++) {
       //var outputText = i.toString();
@@ -102,13 +103,15 @@ function tesseract(val) {
       var existanceResult = await doesItExist(cleanedWord);
       
       var tag;
-      
+      var tag2;
       if(!existanceResult){
         const newArray = await (alternativeWords(cleanedWord));
         const altArray = sortByLikeliness(newArray);
+        AltwordCount++;
         tag = document.createElement("select");
         tag.id = "outputTess" + AltwordCount;
         var text;
+        
         if(altArray.length != 0){ 
 
           for (let j = 0; j < 4; j++) // number of options is currently hard coded
@@ -116,15 +119,15 @@ function tesseract(val) {
             var option = document.createElement("option");
             //let length = altwordArray.length;
             if(!j)
-              text = document.createTextNode(data.words[i].text);
+              text = document.createTextNode(data.words[i].text + " ");
             else{
               if(altArray.length >= j){
-                text = document.createTextNode(altArray[j-1]);
-                console.log(altArray[j-1]);
-                console.log(j-1);
+                text = document.createTextNode(altArray[j-1]+ " ");
+                //console.log(altArray[j-1]);
+                //console.log(j-1);
               }
               else
-                text = document.createTextNode("alternative word don't exist");
+                text = document.createTextNode("alternative word don't exist ");
             }
               
             option.appendChild(text);
@@ -135,18 +138,28 @@ function tesseract(val) {
           tag = document.createElement("span");
           //tag.id = "outputTess" + i;
         }
-        AltwordCount++;
       }
       else{
         tag = document.createElement("span");
         //tag.id = "outputTess" + i;
       } 
+      tag2 = document.createElement("span");
+      if(!existanceResult){
+        tag2.id = "pureOutput" + AltwordCount;
+      }
+      else{
         var text = document.createTextNode(data.words[i].text + " ");
         tag.appendChild(text);
+      }
+      var text2 = document.createTextNode(data.words[i].text + " ");
+      tag2.appendChild(text2);
+      tag2.classList.add("pureOutput");
+      //tag2.appendChild(text);
       if(!existanceResult)
         tag.classList.add("false");
       element.appendChild(tag);
-      purEelement.appendChild(tag);
+
+      pureElement.appendChild(tag2);
 
       //https://www.tutorialspoint.com/how-to-add-a-new-element-to-html-dom-in-javascript
       // need to create an array to hold all of the strings of existence and output it here
@@ -154,7 +167,7 @@ function tesseract(val) {
       //this calls exist function and lowercases the word to fit the dictionary
     }
 
-    
+    displayTesseract(AltwordCount);
 
 
 
@@ -301,8 +314,8 @@ var reader = new FileReader();
           reader.readAsText(fileUpload.files[0]);
 
 */
-var i = 0;
-
+//var i = 0;
+/*
 function move(val) {
   if (i == 0) {
     i = 1;
@@ -321,10 +334,10 @@ function move(val) {
     }
   }
 }
-
+*/
 function jump(val) {
   var elem = document.getElementById("myBar");
-  elem.style.width = val + "%";
+  elem.style.width = val/2 + "%";
 }
 
 document.getElementById("tesseractBut").addEventListener("click",function(){
@@ -355,7 +368,7 @@ document.getElementById("btn").addEventListener("click",function(){
 
 function set_value() { 
   
-  let items = document.getElementsByClassName('false');
+  let items = document.getElementsByClassName('pureOutput');
  
   let data = [].map.call(items, item => item.textContent);
  
@@ -372,17 +385,19 @@ function frequency(word)
 
 function update(idname) {
   var select = document.getElementById("outputTess" + idname);
-  var option = select.options[select.selectedIndex];
-
-  document.getElementById("pureOutput" + idname).value = option.text;
+  //console.log(select.options[1]);
+  var option = select.options[select.selectedIndex].text;
+  console.log(option);
+  document.getElementById("pureOutput" + idname).innerHTML = option + " ";
 }
 
 function displayTesseract(size){
 
   //for loop
-    for(var i = 0; i < size; i++)
+    for(let i = 1; i <= size; i++)
     {
-      document.getElementById("outputTess" + i).addEventListener("change",function(){
+      var idname = "outputTess" + i;
+      document.getElementById(idname).addEventListener("change",function(){
         update(i);
       });
 
