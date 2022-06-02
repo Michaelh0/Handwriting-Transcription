@@ -104,12 +104,12 @@ function tesseract(val) {
     
     var AltwordCount = 0;
     
-
     
-    for (let i = 0; i < data.words.length; i++) {
+
+    for (let i = 0; i < proccessedData.length; i++) {
     
         //var outputText = i.toString();
-        var cleanedWord = clean_up_word(data.words[i].text)
+        var cleanedWord = clean_up_word(proccessedData[i])
         var existanceResult = await doesItExist(cleanedWord);
           
           var tag;
@@ -131,7 +131,7 @@ function tesseract(val) {
                 var optionTag = document.createElement("option");
                 //let length = altwordArray.length;
                 if(!j)
-                  text = data.words[i].text + " ";
+                  text = proccessedData[i] + " ";
                 else{
                   if(altArray.length >= j){
                     text = altArray[j-1]+ " ";
@@ -150,14 +150,14 @@ function tesseract(val) {
           }
           else{
             tag = document.createElement("span");
-            var text = data.words[i].text + " ";
+            var text = proccessedData[i] + " ";
             //tag.appendChild(text);
             createHtml(text,elementId,tag,"",existanceResult,tagId);
           } 
           
           tag2 = document.createElement("span");
           
-          var text2 = data.words[i].text + " ";
+          var text2 = proccessedData[i] + " ";
           createHtml(text2,pureElementId,tag2,pureElementId,true,tagId2);
           pureElement.appendChild(tag2);
           element.appendChild(tag);
@@ -441,6 +441,7 @@ async function preProccessData(arr){
     let firstWord = arr.words[i].text;
     let secondWord = arr.words[i+1].text;
     let newWord = firstWord + secondWord;
+    console.log(newWord);
     var existanceResult = await doesItExist(newWord);
     if (existanceResult){
       postArr.push(newWord);
